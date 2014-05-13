@@ -21,6 +21,14 @@
     <script type="text/javascript" async="" src="./Sakurity_files/ga.js"></script><script src="./Sakurity_files/modernizr.js"></script><style type="text/css"></style>
 <meta class="foundation-data-attribute-namespace"><meta class="foundation-mq-xxlarge"><meta class="foundation-mq-xlarge"><meta class="foundation-mq-large"><meta class="foundation-mq-medium"><meta class="foundation-mq-small"><style></style><style></style></head>
 <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=308204306014678&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 <nav class="top-bar row" data-topbar="">
     <section class="top-bar-section">
@@ -31,7 +39,7 @@
         <ul class="left">
             <li>
                <a style="background:fff" href="http://sakurity.com"> <div class="logo-header"></div></a>
-            </li>
+                         </li>
         </ul>
     </section>
 </nav>
@@ -44,7 +52,11 @@
 
 
 
-<article class="markdown-body entry-content" itemprop="mainContentOfPage"><h1>
+<article class="markdown-body entry-content" itemprop="mainContentOfPage">
+
+
+
+<h1>
 <a name="oauth-security-cheatsheet" class="anchor" href="#oauth-security-cheatsheet"><span class="octicon octicon-link"></span></a>OAuth Security Cheatsheet</h1>
 
 <p>This document aims to describe common OAuth/Single Sign On/OpenID-related vulnerabilities. Many cross-site interactions are vulnerable to different kinds of leakings and hijackings. </p>
@@ -189,7 +201,15 @@ This bug is relevant to mobile and client-side apps, because they often use acce
 <h2>
 <a name="contributors" class="anchor" href="#contributors"><span class="octicon octicon-link"></span></a>Contributors</h2>
 
-<p><a href="http://twitter.com/homakov">@homakov</a> and <a href="http://github.com/homakov/oauthsecurity">you?</a></p></article>
+<p><a href="http://twitter.com/homakov">@homakov</a> and <a href="http://github.com/homakov/oauthsecurity">you?</a></p>
+
+
+  <div class="fb-like" data-href="http://www.oauthsecurity.com/" data-layout="button" data-action="recommend" data-show-faces="true" data-share="true"></div>
+               <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.oauthsecurity.com/" data-text="OAuth Security" data-via="homakov" data-related="homakov">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+
+</article>
 
 
 

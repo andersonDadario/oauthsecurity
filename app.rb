@@ -12,13 +12,8 @@ set :public_folder, 'dist'
 disable :sessions
 disable :protection
 
+index = File.open('dist/Sakurity.html')
 
 get '/' do
-  # use index.haml for readme
-  File.open('dist/Sakurity.html')
-  #markdown :a #, :layout => :index
-end
-
-get '/d' do
-  File.open('a.html')
+  index
 end
