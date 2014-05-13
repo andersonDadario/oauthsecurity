@@ -12,8 +12,8 @@ set :public_folder, 'dist'
 disable :sessions
 disable :protection
 
-index = File.open('dist/Sakurity.html')
+#index = File.open('dist/Sakurity.html')
 
 get '/' do
-  index
+  File.open('dist/Sakurity.html')
 end
