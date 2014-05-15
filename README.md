@@ -1,6 +1,6 @@
 # OAuth Security Cheatsheet
 
-This describes common OAuth/Single Sign On/OpenID-related vulnerabilities. Many cross-site interactions are vulnerable to different kinds of leakings and hijackings. 
+This document describes common OAuth/Single Sign On/OpenID-related vulnerabilities. Many cross-site interactions are vulnerable to different kinds of leakings and hijackings. 
 
 Both hackers and developers can benefit from reading it.
 
@@ -57,7 +57,7 @@ When your victim will load crafted URL it will send him to `leaking_page?code=CO
 
 ![](http://3.bp.blogspot.com/-CnQQ9kjPoVs/UvT_O0m5uqI/AAAAAAAADkE/_Rl_EYv4ACQ/s1600/Screen+Shot+2014-02-05+at+5.15.39+PM.png)
 
-Now you can re-use leaked authorization code on the actual `redirect_uri` to log in in victim account.
+Now you can re-use leaked authorization code on the actual `redirect_uri` to log in the victim account.
 
 **Remediation**: flexible `redirect_uri` is a bad practise. But if you need it, store redirect_uri for every code you issue and verify it on access_token creation.
 
@@ -75,10 +75,10 @@ Furthermore, leaked `signed_request` is even more sensitive data. By finding an 
 ![](http://4.bp.blogspot.com/-gUuXr1_G5HA/U2PsbZto1CI/AAAAAAAADr8/Vaj3sWfKBnM/s1600/Screen+Shot+2014-05-02+at+3.04.10+PM.png)
 
 ###Account hijacking by using access_token issued for the attacker's client. 
-[Also known as One Token to Rule Them All](http://homakov.blogspot.com/2012/08/oauth2-one-accesstoken-to-rule-them-all.html).
-This bug is relevant to mobile and client-side apps, because they often use access_token directly supplied by user. 
+Also known as [One Token to Rule Them All](http://homakov.blogspot.com/2012/08/oauth2-one-accesstoken-to-rule-them-all.html).
+This bug is relevant to mobile and client-side apps, because they often use access_token directly supplied by the user. 
 
-Imagine, user has many "authorization rings" and gives a ring to every new website where he wants to log in. A malicious website admin can use rings of its users to log in other websites the users use.
+Imagine, user has many "authorization rings" and gives a ring to every new website where he wants to log in. A malicious website admin can use rings of its users to log in other websites his customers have accounts on.
 
 ![](http://4.bp.blogspot.com/-XrjGN64Roe4/UTBo5qqd7gI/AAAAAAAABp0/XCTg0PaSGaU/s320/mal+(2).png)
 
