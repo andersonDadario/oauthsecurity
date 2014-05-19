@@ -86,7 +86,20 @@ Imagine, user has many "authorization rings" and gives a ring to every new websi
 
 
 ## Transport and JS SDK bugs
-(to be continued)
+For better support of client-side applications (or browser apps) some of OAuth 2 providers added an out-of-specs custom variant of implicit flow, involving a proxy/relay page as a sort of router for access tokens. This proxy communicates with the client page of application either through standard HTML5 postMessage API, or using legacy ways: manipulating window name and url (known as Fragment transport, rmr) and <a href="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/LocalConnection.html">Adobe Flash LocalConnection API</a>.
+
+Regardless of the selected method, it is important to ensure proxy can exchange messages only with the target origin, to disallow malicious page from impersonating the application page, and finally to verify these client-side checks are consistent with server-side checks. Fail properly secure client-side transport usually results in two kinds of problems: 
+* leaking data to an attacker (authorization and authentication bypass <a href="http://prosecco.gforge.inria.fr/CVE/Facebook_JS_2012.html">[1]</a>, <a href="http://research.microsoft.com/pubs/160659/websso-final.pdf">[2]</a>)
+* trusting data from an attacker (session fixation <a href="http://ifsec.blogspot.ru/2012/09/of-html5-security-cross-domain.html">[1]</a>, <a href="http://www.cs.berkeley.edu/~dawnsong/papers/2010%20emperors%20new%20api.pdf">[2]</a>)
+
+Additionally, modern web-applications tend to have rich javascript frontend, and unsafe client-side communication may lead to even more serious attacks beyond OAuth itself (<a href="http://isciurus.blogspot.com/2013/04/a-story-of-9500-bug-in-facebook-oauth-20.html">DOM XSS on Facebook through OAuth 2 logical flaws</a>)
+
+**Remediation**:
+* Completely disable all legacy client-side communication methods (Flash or Fragment), use postMessage
+*Check origins of all incoming and outgoing messages, allow only the target application domain
+*Ensure that all client-side origin checks are consistent with server-side origin checks
+*Use a cryptographic nonce validation before starting data transmission with another party
+
 
 ## Extra
 ### Leaked client credentials threat
@@ -123,6 +136,11 @@ If you are allowed to set subdirectory here are path traversal tricks:
 
 ### Replay attack.
 `code` is sent via GET and potentionally will be stored in the logs. Providers must delete it after use or expire in 5 minutes.
+
+### Leaking a code with an open redirect
+Usually you need a referrer-leaking page to leak ?query parameters. There are two tricks to do it with an open redirect though:
+* When redirect uses `<meta>` tag instead of 302 status and Location header. It will leak redirecting page's referrer to in the next request.
+* When you can manage to add `%23`(#) in the end of `redirect_uri`. It will result in sending the code in the fragment `Location: http://CLIENT/callback#?code=CODE`
 
 ## Contributors
 [@homakov](http://twitter.com/homakov) and [you?](http://github.com/homakov/oauthsecurity)
