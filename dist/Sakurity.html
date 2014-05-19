@@ -50,11 +50,10 @@
 
 
 
-
 <article class="markdown-body entry-content" itemprop="mainContentOfPage"><h1>
 <a name="user-content-oauth-security-cheatsheet" class="anchor" href="#oauth-security-cheatsheet"><span class="octicon octicon-link"></span></a>OAuth Security Cheatsheet</h1>
 
-<p>This describes common OAuth/Single Sign On/OpenID-related vulnerabilities. Many cross-site interactions are vulnerable to different kinds of leakings and hijackings. </p>
+<p>This document describes common OAuth/Single Sign On/OpenID-related vulnerabilities. Many cross-site interactions are vulnerable to different kinds of leakings and hijackings. </p>
 
 <p>Both hackers and developers can benefit from reading it.</p>
 
@@ -114,7 +113,7 @@ When your victim will load crafted URL it will send him to <code>leaking_page?co
 
 <p><a href="https://camo.githubusercontent.com/ea92780497830b25aa4e74859ef42ed4d03a2a8a/687474703a2f2f332e62702e626c6f6773706f742e636f6d2f2d436e5151396b6a506f56732f5576545f4f306d357571492f4141414141414141446b452f5f526c5f455976344143512f73313630302f53637265656e2b53686f742b323031342d30322d30352b61742b352e31352e33392b504d2e706e67" target="_blank"><img src="https://camo.githubusercontent.com/ea92780497830b25aa4e74859ef42ed4d03a2a8a/687474703a2f2f332e62702e626c6f6773706f742e636f6d2f2d436e5151396b6a506f56732f5576545f4f306d357571492f4141414141414141446b452f5f526c5f455976344143512f73313630302f53637265656e2b53686f742b323031342d30322d30352b61742b352e31352e33392b504d2e706e67" alt="" data-canonical-src="http://3.bp.blogspot.com/-CnQQ9kjPoVs/UvT_O0m5uqI/AAAAAAAADkE/_Rl_EYv4ACQ/s1600/Screen+Shot+2014-02-05+at+5.15.39+PM.png" style="max-width:100%;"></a></p>
 
-<p>Now you can re-use leaked authorization code on the actual <code>redirect_uri</code> to log in in victim account.</p>
+<p>Now you can re-use leaked authorization code on the actual <code>redirect_uri</code> to log in the victim account.</p>
 
 <p><strong>Remediation</strong>: flexible <code>redirect_uri</code> is a bad practise. But if you need it, store redirect_uri for every code you issue and verify it on access_token creation.</p>
 
@@ -136,10 +135,10 @@ Furthermore, leaked <code>signed_request</code> is even more sensitive data. By 
 <h3>
 <a name="user-content-account-hijacking-by-using-access_token-issued-for-the-attackers-client" class="anchor" href="#account-hijacking-by-using-access_token-issued-for-the-attackers-client"><span class="octicon octicon-link"></span></a>Account hijacking by using access_token issued for the attacker's client.</h3>
 
-<p><a href="http://homakov.blogspot.com/2012/08/oauth2-one-accesstoken-to-rule-them-all.html">Also known as One Token to Rule Them All</a>.
-This bug is relevant to mobile and client-side apps, because they often use access_token directly supplied by user. </p>
+<p>Also known as <a href="http://homakov.blogspot.com/2012/08/oauth2-one-accesstoken-to-rule-them-all.html">One Token to Rule Them All</a>.
+This bug is relevant to mobile and client-side apps, because they often use access_token directly supplied by the user. </p>
 
-<p>Imagine, user has many "authorization rings" and gives a ring to every new website where he wants to log in. A malicious website admin can use rings of its users to log in other websites the users use.</p>
+<p>Imagine, user has many "authorization rings" and gives a ring to every new website where he wants to log in. A malicious website admin can use rings of its users to log in other websites his customers have accounts on.</p>
 
 <p><a href="https://camo.githubusercontent.com/7e380a77f977a251f7f7a631822134ffc87b82e7/687474703a2f2f342e62702e626c6f6773706f742e636f6d2f2d58726a474e3634526f65342f5554426f357171643767492f41414141414141414270302f58435467305061534761552f733332302f6d616c2b2832292e706e67" target="_blank"><img src="https://camo.githubusercontent.com/7e380a77f977a251f7f7a631822134ffc87b82e7/687474703a2f2f342e62702e626c6f6773706f742e636f6d2f2d58726a474e3634526f65342f5554426f357171643767492f41414141414141414270302f58435467305061534761552f733332302f6d616c2b2832292e706e67" alt="" data-canonical-src="http://4.bp.blogspot.com/-XrjGN64Roe4/UTBo5qqd7gI/AAAAAAAABp0/XCTg0PaSGaU/s320/mal+(2).png" style="max-width:100%;"></a></p>
 
@@ -150,22 +149,21 @@ This bug is relevant to mobile and client-side apps, because they often use acce
 
 <p>For better support of client-side applications (or browser apps) some of OAuth 2 providers added an out-of-specs custom variant of implicit flow, involving a proxy/relay page as a sort of router for access tokens. This proxy communicates with the client page of application either through standard HTML5 postMessage API, or using legacy ways: manipulating window name and url (known as Fragment transport, rmr) and <a href="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/LocalConnection.html">Adobe Flash LocalConnection API</a>.</p>
 
-<p>Regardless of the selected method, it is important to ensure proxy can exchange messages only with the target origin, to disallow malicious page from impersonating the application page, and finally to verify these client-side checks are consistent with server-side checks. Fail properly secure client-side transport usually results in two kinds of problems: 
-<ul>
-<li><p>leaking data to an attacker (authorization and authentication bypass <a href="http://prosecco.gforge.inria.fr/CVE/Facebook_JS_2012.html">[1]</a>, <a href="http://research.microsoft.com/pubs/160659/websso-final.pdf">[2]</a>)</p></li>
-<li><p>trusting data from an attacker (session fixation <a href="http://ifsec.blogspot.ru/2012/09/of-html5-security-cross-domain.html">[1]</a>, <a href="http://www.cs.berkeley.edu/~dawnsong/papers/2010%20emperors%20new%20api.pdf">[2]</a>)</p></li>
-</ul>
+<p>Regardless of the selected method, it is important to ensure proxy can exchange messages only with the target origin, to disallow malicious page from impersonating the application page, and finally to verify these client-side checks are consistent with server-side checks. Fail properly secure client-side transport usually results in two kinds of problems: </p>
 
-<p>Additionally, modern web-applications tend to have rich javascript frontend, and unsafe client-side communication may lead to even more serious attacks beyond OAuth itself (<a href="http://isciurus.blogspot.com/2013/04/a-story-of-9500-bug-in-facebook-oauth-20.html">DOM XSS on Facebook through OAuth 2 logical flaws</a>)</p>
+<ul class="task-list">
+<li>leaking data to an attacker (authorization and authentication bypass <a href="http://prosecco.gforge.inria.fr/CVE/Facebook_JS_2012.html">[1]</a>, <a href="http://research.microsoft.com/pubs/160659/websso-final.pdf">[2]</a>)</li>
+<li>trusting data from an attacker (session fixation <a href="http://ifsec.blogspot.ru/2012/09/of-html5-security-cross-domain.html">[1]</a>, <a href="http://www.cs.berkeley.edu/~dawnsong/papers/2010%20emperors%20new%20api.pdf">[2]</a>)</li>
+</ul><p>Additionally, modern web-applications tend to have rich javascript frontend, and unsafe client-side communication may lead to even more serious attacks beyond OAuth itself (<a href="http://isciurus.blogspot.com/2013/04/a-story-of-9500-bug-in-facebook-oauth-20.html">DOM XSS on Facebook through OAuth 2 logical flaws</a>)</p>
 
-<p><strong>Remediation</strong></p>
-<ul>
-<li><p>Completely disable all legacy client-side communication methods (Flash or Fragment), use postMessage</p></li>
-<li><p>Check origins of all incoming and outgoing messages, allow only the target application domain</p></li>
-<li><p>Ensure that all client-side origin checks are consistent with server-side origin checks</p></li>
-<li><p>Use a cryptographic nonce validation before starting data transmission with another party</p></li>
-</ul>
-<h2>
+<p><strong>Remediation</strong>:</p>
+
+<ul class="task-list">
+<li>Completely disable all legacy client-side communication methods (Flash or Fragment), use postMessage</li>
+<li>Check origins of all incoming and outgoing messages, allow only the target application domain</li>
+<li>Ensure that all client-side origin checks are consistent with server-side origin checks</li>
+<li>Use a cryptographic nonce validation before starting data transmission with another party</li>
+</ul><h2>
 <a name="user-content-extra" class="anchor" href="#extra"><span class="octicon octicon-link"></span></a>Extra</h2>
 
 <h3>
@@ -207,10 +205,21 @@ This bug is relevant to mobile and client-side apps, because they often use acce
 
 <p><code>code</code> is sent via GET and potentionally will be stored in the logs. Providers must delete it after use or expire in 5 minutes.</p>
 
-<h2>
+<h3>
+<a name="user-content-leaking-a-code-with-an-open-redirect" class="anchor" href="#leaking-a-code-with-an-open-redirect"><span class="octicon octicon-link"></span></a>Leaking a code with an open redirect</h3>
+
+<p>Usually you need a referrer-leaking page to leak ?query parameters. There are two tricks to do it with an open redirect though:</p>
+
+<ul class="task-list">
+<li>When redirect uses <code>&lt;meta&gt;</code> tag instead of 302 status and Location header. It will leak redirecting page's referrer to in the next request.</li>
+<li>When you managed to add <code>%23</code>(#) in the end of <code>redirect_uri</code>. It will result in sending the code in the fragment <code>Location: http://CLIENT/callback/../open_redirect?to=evil#&amp;code=CODE</code>
+</li>
+</ul><h2>
 <a name="user-content-contributors" class="anchor" href="#contributors"><span class="octicon octicon-link"></span></a>Contributors</h2>
 
-<p><a href="http://twitter.com/homakov">@homakov</a> and <a href="http://github.com/homakov/oauthsecurity">you?</a></p>
+<p><a href="http://twitter.com/homakov">@homakov</a>, 
+<a href="http://twitter.com/isciurus">@isciurus</a> 
+and <a href="http://github.com/homakov/oauthsecurity">you?</a></p>
 
 
 
