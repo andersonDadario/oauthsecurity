@@ -96,9 +96,9 @@ Additionally, modern web-applications tend to have rich javascript frontend, and
 
 **Remediation**:
 * Completely disable all legacy client-side communication methods (Flash or Fragment), use postMessage
-*Check origins of all incoming and outgoing messages, allow only the target application domain
-*Ensure that all client-side origin checks are consistent with server-side origin checks
-*Use a cryptographic nonce validation before starting data transmission with another party
+* Check origins of all incoming and outgoing messages, allow only the target application domain
+* Ensure that all client-side origin checks are consistent with server-side origin checks
+* Use a cryptographic nonce validation before starting data transmission with another party
 
 
 ## Extra
@@ -140,10 +140,12 @@ If you are allowed to set subdirectory here are path traversal tricks:
 ### Leaking a code with an open redirect
 Usually you need a referrer-leaking page to leak ?query parameters. There are two tricks to do it with an open redirect though:
 * When redirect uses `<meta>` tag instead of 302 status and Location header. It will leak redirecting page's referrer to in the next request.
-* When you can manage to add `%23`(#) in the end of `redirect_uri`. It will result in sending the code in the fragment `Location: http://CLIENT/callback#?code=CODE`
+* When you managed to add `%23`(#) in the end of `redirect_uri`. It will result in sending the code in the fragment `Location: http://CLIENT/callback/../open_redirect?to=evil#&code=CODE`
 
 ## Contributors
-[@homakov](http://twitter.com/homakov) and [you?](http://github.com/homakov/oauthsecurity)
+[@homakov](http://twitter.com/homakov) 
+[@isciurus](http://twitter.com/isciurus) 
+and [you?](http://github.com/homakov/oauthsecurity)
 
 
 
