@@ -156,13 +156,13 @@ This bug is relevant to mobile and client-side apps, because they often use acce
 <li><p>trusting data from an attacker (session fixation <a href="http://ifsec.blogspot.ru/2012/09/of-html5-security-cross-domain.html">[1]</a>, <a href="http://www.cs.berkeley.edu/~dawnsong/papers/2010%20emperors%20new%20api.pdf">[2]</a>)</p></li>
 </ul>
 
-<p>Additionally, modern web-appications tend to have rich javacript frontend, and unsafe client-side communication may lead to even more serious attacks beyond OAuth itself (<a href="http://isciurus.blogspot.com/2013/04/a-story-of-9500-bug-in-facebook-oauth-20.html">DOM XSS on Facebook through OAuth 2 logical flaws</a>)</p>
+<p>Additionally, modern web-applications tend to have rich javascript frontend, and unsafe client-side communication may lead to even more serious attacks beyond OAuth itself (<a href="http://isciurus.blogspot.com/2013/04/a-story-of-9500-bug-in-facebook-oauth-20.html">DOM XSS on Facebook through OAuth 2 logical flaws</a>)</p>
 
 <p><strong>Remediation</strong></p>
 <ul>
 <li><p>Completely disable all legacy client-side communication methods (Flash or Fragment), use postMessage</p></li>
 <li><p>Check origins of all incoming and outgoing messages, allow only the target application domain</p></li>
-<li><p>Ensure that all client-side origin checks are consistent with server-side origin chechs</p></li>
+<li><p>Ensure that all client-side origin checks are consistent with server-side origin checks</p></li>
 <li><p>Use a cryptographic nonce validation before starting data transmission with another party</p></li>
 </ul>
 <h2>
