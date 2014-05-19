@@ -148,8 +148,23 @@ This bug is relevant to mobile and client-side apps, because they often use acce
 <h2>
 <a name="user-content-transport-and-js-sdk-bugs" class="anchor" href="#transport-and-js-sdk-bugs"><span class="octicon octicon-link"></span></a>Transport and JS SDK bugs</h2>
 
-<p>(to be continued)</p>
+<p>For better support of client-side applications (or browser apps) some of OAuth 2 providers added an out-of-specs custom variant of implicit flow, involving a proxy/relay page as a sort of router for access tokens. This proxy communicates with the client page of application either through standard HTML5 postMessage API, or using legacy ways: manipulating window name and url (known as Fragment transport, rmr) and <a href="http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/LocalConnection.html">Adobe Flash LocalConnection API</a>.</p>
 
+<p>Regardless of the selected method, it is important to ensure proxy can exchange messages only with the target origin, to disallow malicious page from impersonating the application page, and finally to verify these client-side checks are consistent with server-side checks. Fail properly secure client-side transport usually results in two kinds of problems: 
+<ul>
+<li><p>leaking data to an attacker (authorization and authentication bypass <a href="http://prosecco.gforge.inria.fr/CVE/Facebook_JS_2012.html">[1]</a>, <a href="http://research.microsoft.com/pubs/160659/websso-final.pdf">[2]</a>)</p></li>
+<li><p>trusting data from an attacker (session fixation <a href="http://ifsec.blogspot.ru/2012/09/of-html5-security-cross-domain.html">[1]</a>, <a href="http://www.cs.berkeley.edu/~dawnsong/papers/2010%20emperors%20new%20api.pdf">[2]</a>)</p></li>
+</ul>
+
+<p>Additionally, modern web-appications tend to have rich javacript frontend, and unsafe client-side communication may lead to even more serious attacks beyond OAuth itself (<a href="http://isciurus.blogspot.com/2013/04/a-story-of-9500-bug-in-facebook-oauth-20.html">DOM XSS on Facebook through OAuth 2 logical flaws</a>)</p>
+
+<p><strong>Remediation</strong></p>
+<ul>
+<li><p>Completely disable all legacy client-side communication methods (Flash or Fragment), use postMessage</p></li>
+<li><p>Check origins of all incoming and outgoing messages, allow only the target application domain</p></li>
+<li><p>Ensure that all client-side origin checks are consistent with server-side origin chechs</p></li>
+<li><p>Use a cryptographic nonce validation before starting data transmission with another party</p></li>
+</ul>
 <h2>
 <a name="user-content-extra" class="anchor" href="#extra"><span class="octicon octicon-link"></span></a>Extra</h2>
 
